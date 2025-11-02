@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}Booking Confirmation - PartyHub{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto px-4 py-20">
+    <div class="card mb-8">
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold gradient-text mb-2">Booking Confirmed!</h1>
+            <p class="text-gray-600 text-lg">Your event is all set to celebrate</p>
+        </div>
+
+        <div class="bg-pink-50 p-8 rounded-lg text-center mb-8">
+            <p class="text-gray-600 font-semibold mb-2">Your Confirmation Code</p>
+            <p class="text-5xl font-bold text-pink-600 tracking-widest">{{ booking.confirmation_code }}</p>
+            <p class="text-gray-600 text-sm mt-4">Save this code for your records</p>
+        </div>
+
+        <div class="space-y-6">
+            <div class="border-b pb-4">
+                <p class="text-gray-600 font-semibold mb-2">Party Details</p>
+                <p class="text-lg font-semibold">{{ booking.event_plan.party_type.name }}</p>
+            </div>
+
+            <div class="border-b pb-4">
+                <p class="text-gray-600 font-semibold mb-2">Event Date & Time</p>
+                <p class="text-lg font-semibold">{{ booking.event_plan.event_date }} at {{ booking.event_plan.event_time }}</p>
+            </div>
+
+            <div class="border-b pb-4">
+                <p class="text-gray-600 font-semibold mb-2">Venue</p>
+                <p class="text-lg font-semibold">{{ booking.event_plan.venue }}</p>
+            </div>
+
+            <div class="border-b pb-4">
+                <p class="text-gray-600 font-semibold mb-2">Number of Guests</p>
+                <p class="text-lg font-semibold">{{ booking.event_plan.guest_count }} people</p>
+            </div>
+
+            <div class="bg-green-50 p-4 rounded-lg">
+                <p class="text-sm text-gray-600 mb-2">Status</p>
+                <p class="text-2xl font-bold text-green-600">{{ booking.get_status_display }}</p>
+            </div>
+
+            <div class="bg-blue-50 p-4 rounded-lg">
+                <p class="text-sm text-gray-600 mb-2">Total Amount</p>
+                <p class="text-2xl font-bold text-blue-600">${{ booking.payment_amount }}</p>
+            </div>
+
+            <div class="border-t pt-6">
+                <p class="text-gray-600 text-sm mb-4">What happens next?</p>
+                <ul class="space-y-2 text-gray-700">
+                    <li>✓ You will receive a confirmation email shortly</li>
+                    <li>✓ Our team will contact you 48 hours before your event</li>
+                    <li>✓ Final payment is due 7 days before the event</li>
+                    <li>✓ Arrive 30 minutes early on the day of your event</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="mt-8 space-y-4">
+            <a href="{% url 'dashboard' %}" class="btn-primary block text-center">Back to Dashboard</a>
+            <a href="{% url 'contact' %}" class="btn-outline block text-center">Contact Us</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

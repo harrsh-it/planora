@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ party_type.name }} - PartyHub{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 py-20">
+    {% if party_type.image %}
+        <img src="{{ party_type.image.url }}" alt="{{ party_type.name }}" class="w-full h-96 object-cover rounded-xl mb-8">
+    {% endif %}
+
+    <h1 class="text-5xl font-bold mb-4 gradient-text">{{ party_type.name }}</h1>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+        <div>
+            <p class="text-gray-600 text-lg mb-6">{{ party_type.description }}</p>
+            
+            <div class="bg-pink-50 p-6 rounded-xl mb-6">
+                <p class="text-5xl font-bold text-pink-600 mb-2">${{ party_type.base_price }}</p>
+                <p class="text-gray-600">Base package price</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3 class="text-2xl font-bold mb-4">Package Details</h3>
+            <ul class="space-y-3">
+                <li class="flex items-center">
+                    <span class="text-pink-500 mr-3">✓</span>
+                    <span><strong>Duration:</strong> {{ party_type.duration_hours }} hours</span>
+                </li>
+                <li class="flex items-center">
+                    <span class="text-pink-500 mr-3">✓</span>
+                    <span><strong>Maximum Guests:</strong> {{ party_type.max_guests }}</span>
+                </li>
+                <li class="flex items-center">
+                    <span class="text-pink-500 mr-3">✓</span>
+                    <span>Professional coordination</span>
+                </li>
+                <li class="flex items-center">
+                    <span class="text-pink-500 mr-3">✓</span>
+                    <span>Custom decorations</span>
+                </li>
+                <li class="flex items-center">
+                    <span class="text-pink-500 mr-3">✓</span>
+                    <span>Catering options available</span>
+                </li>
+            </ul>
+
+            {% if user.is_authenticated %}
+                <a href="{% url 'create_event_plan' %}" class="btn-primary block text-center mt-6">Book This Package</a>
+            {% else %}
+                <a href="{% url 'signup' %}" class="btn-primary block text-center mt-6">Sign Up to Book</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

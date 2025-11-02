@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - PartyHub{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 py-20">
+    <h1 class="text-4xl font-bold mb-2 gradient-text">Your Dashboard</h1>
+    <p class="text-gray-600 mb-8">Welcome, {{ user.first_name|default:user.username }}!</p>
+
+    <!-- Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        <div class="card">
+            <p class="text-gray-600 font-semibold">Total Events</p>
+            <p class="text-4xl font-bold text-pink-600">{{ event_plans|length }}</p>
+        </div>
+        <div class="card">
+            <p class="text-gray-600 font-semibold">Bookings</p>
+            <p class="text-4xl font-bold text-purple-600">{{ bookings|length }}</p>
+        </div>
+        <div class="card">
+            <p class="text-gray-600 font-semibold">Total Spent</p>
+            <p class="text-4xl font-bold text-cyan-600">${{ total_spent }}</p>
+        </div>
+    </div>
+
+    <!-- Action Button -->
+    <a href="{% url 'create_event_plan' %}" class="btn-primary inline-block mb-12">+ Create New Event</a>
+
+    <!-- Recent Event Plans -->
+    {% if event_plans %}
+        <h2 class="text-2xl font-bold mb-6">Your Event Plans</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+            {% for plan in event_plans %}
+                <div class="card">
+                    <h3 class="text-xl font-bold mb-2">{{ plan.party_type.name }}</h3>
+                    <p class="text-gray-600 mb-4">{{ plan.event_date }} at {{ plan.event_time }}</p>
+                    <p class="text-gray-600 mb-2"><strong>Venue:</strong> {{ plan.venue }}</p>
+                    <p class="text-gray-600 mb-4"><strong>Guests:</strong> {{ plan.guest_count }}</p>
+                    <p class="text-pink-600 font-bold text-lg mb-4">${{ plan.total_cost }}</p>
+                    
+                    {% if plan.booking %}
+                        <a href="{% url 'booking_details' plan.booking.pk %}" class="btn-secondary block text-center text-sm">View Booking</a>
+                    {% else %}
+                        <a href="{% url 'booking' plan.pk %}" class="btn-primary block text-center text-sm">Complete Booking</a>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Bookings -->
+    {% if bookings %}
+        <h2 class="text-2xl font-bold mb-6">Your Bookings</h2>
+        <div class="space-y-4">
+            {% for booking in bookings %}
+                <div class="card">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <p class="text-sm text-gray-500">Confirmation Code</p>
+                            <p class="text-2xl font-bold">{{ booking.confirmation_code }}</p>
+                        </div>
+                        <span class="px-4 py-2 rounded-full text-sm font-semibold {% if booking.status == 'confirmed' %}bg-green-100 text-green-800{% elif booking.status == 'pending' %}bg-yellow-100 text-yellow-800{% endif %}">
+                            {{ booking.get_status_display }}
+                        </span>
+                    </div>
+                    <p class="text-gray-600 mb-2"><strong>Event:</strong> {{ booking.event_plan.party_type.name }}</p>
+                    <p class="text-gray-600 mb-2"><strong>Date:</strong> {{ booking.event_plan.event_date }}</p>
+                    <p class="text-pink-600 font-bold">Total: ${{ booking.payment_amount }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

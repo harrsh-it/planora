@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}About Us - PartyHub{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 py-20">
+    <h1 class="text-5xl font-bold text-center mb-4 gradient-text">About PartyHub</h1>
+    <p class="text-center text-gray-600 text-xl mb-12 max-w-2xl mx-auto">Creating unforgettable celebrations since 2024</p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20">
+        <div>
+            <h2 class="text-3xl font-bold mb-6">Our Mission</h2>
+            <p class="text-gray-600 text-lg mb-4">At PartyHub, we believe every celebration deserves to be special. Our mission is to make party planning easy, affordable, and stress-free for everyone.</p>
+            <p class="text-gray-600 text-lg">We combine professional expertise with personalized service to create memorable events that your guests will talk about for years.</p>
+        </div>
+
+        <div class="card">
+            <h3 class="text-2xl font-bold mb-6">Why Choose Us?</h3>
+            <ul class="space-y-4">
+                <li class="flex items-start">
+                    <span class="text-pink-500 mr-3 text-2xl">★</span>
+                    <div>
+                        <p class="font-semibold">Expert Planning</p>
+                        <p class="text-gray-600 text-sm">Experienced team with 5+ years</p>
+                    </div>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-pink-500 mr-3 text-2xl">★</span>
+                    <div>
+                        <p class="font-semibold">Affordable Packages</p>
+                        <p class="text-gray-600 text-sm">Quality services at competitive prices</p>
+                    </div>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-pink-500 mr-3 text-2xl">★</span>
+                    <div>
+                        <p class="font-semibold">24/7 Support</p>
+                        <p class="text-gray-600 text-sm">Always here when you need us</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="bg-gray-900 text-white p-12 rounded-xl text-center">
+        <h2 class="text-3xl font-bold mb-6">By The Numbers</h2>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+                <p class="text-4xl font-bold text-pink-500">500+</p>
+                <p class="text-gray-300">Events Planned</p>
+            </div>
+            <div>
+                <p class="text-4xl font-bold text-purple-500">4.8★</p>
+                <p class="text-gray-300">Average Rating</p>
+            </div>
+            <div>
+                <p class="text-4xl font-bold text-cyan-500">1000+</p>
+                <p class="text-gray-300">Happy Clients</p>
+            </div>
+            <div>
+                <p class="text-4xl font-bold text-yellow-400">24/7</p>
+                <p class="text-gray-300">Customer Support</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

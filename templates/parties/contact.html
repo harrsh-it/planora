@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact Us - PartyHub{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 py-20">
+    <h1 class="text-5xl font-bold text-center mb-4 gradient-text">Get In Touch</h1>
+    <p class="text-center text-gray-600 text-xl mb-12">Have questions? We'd love to hear from you</p>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        <div class="card text-center">
+            <p class="text-4xl mb-4">📧</p>
+            <h3 class="text-xl font-bold mb-2">Email</h3>
+            <p class="text-gray-600"><a href="mailto:info@partyhub.com" class="text-pink-600 hover:underline">info@partyhub.com</a></p>
+        </div>
+
+        <div class="card text-center">
+            <p class="text-4xl mb-4">📞</p>
+            <h3 class="text-xl font-bold mb-2">Phone</h3>
+            <p class="text-gray-600"><a href="tel:+15551234567" class="text-pink-600 hover:underline">(555) 123-4567</a></p>
+        </div>
+
+        <div class="card text-center">
+            <p class="text-4xl mb-4">📍</p>
+            <h3 class="text-xl font-bold mb-2">Location</h3>
+            <p class="text-gray-600">123 Party Street, Celebration City, CC 12345</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2 class="text-2xl font-bold mb-6">Send us a Message</h2>
+        <form method="post" class="space-y-4">
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+                    {% for error in form.non_field_errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <div>
+                <label for="{{ form.name.id_for_label }}" class="block text-sm font-semibold text-gray-700 mb-2">Name</label>
+                {{ form.name }}
+            </div>
+
+            <div>
+                <label for="{{ form.email.id_for_label }}" class="block text-sm font-semibold text-gray-700 mb-2">Email</label>
+                {{ form.email }}
+            </div>
+
+            <div>
+                <label for="{{ form.subject.id_for_label }}" class="block text-sm font-semibold text-gray-700 mb-2">Subject</label>
+                {{ form.subject }}
+            </div>
+
+            <div>
+                <label for="{{ form.message.id_for_label }}" class="block text-sm font-semibold text-gray-700 mb-2">Message</label>
+                {{ form.message }}
+            </div>
+
+            <button type="submit" class="btn-primary w-full">Send Message</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

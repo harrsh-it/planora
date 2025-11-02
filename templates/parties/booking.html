@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block title %}Complete Booking - PartyHub{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 py-20">
+    <h1 class="text-4xl font-bold mb-8 gradient-text">Review Your Booking</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Event Details -->
+        <div class="md:col-span-2 card">
+            <h2 class="text-2xl font-bold mb-6">Event Details</h2>
+            
+            <div class="space-y-4 mb-8">
+                <div class="pb-4 border-b">
+                    <p class="text-gray-600">Party Type</p>
+                    <p class="text-xl font-semibold">{{ event_plan.party_type.name }}</p>
+                </div>
+
+                <div class="pb-4 border-b">
+                    <p class="text-gray-600">Date & Time</p>
+                    <p class="text-xl font-semibold">{{ event_plan.event_date }} at {{ event_plan.event_time }}</p>
+                </div>
+
+                <div class="pb-4 border-b">
+                    <p class="text-gray-600">Venue</p>
+                    <p class="text-xl font-semibold">{{ event_plan.venue }}</p>
+                </div>
+
+                <div class="pb-4 border-b">
+                    <p class="text-gray-600">Number of Guests</p>
+                    <p class="text-xl font-semibold">{{ event_plan.guest_count }}</p>
+                </div>
+
+                {% if event_plan.services.all %}
+                    <div class="pb-4 border-b">
+                        <p class="text-gray-600 mb-2">Additional Services</p>
+                        <ul class="space-y-2">
+                            {% for service in event_plan.services.all %}
+                                <li class="flex justify-between">
+                                    <span>{{ service.name }}</span>
+                                    <span class="font-semibold">${{ service.price }}</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+
+                {% if event_plan.special_requests %}
+                    <div class="pb-4 border-b">
+                        <p class="text-gray-600">Special Requests</p>
+                        <p class="text-lg">{{ event_plan.special_requests }}</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Pricing & Booking -->
+        <div class="card h-fit">
+            <h2 class="text-2xl font-bold mb-6">Booking Summary</h2>
+
+            <div class="space-y-4 mb-6">
+                <div class="flex justify-between">
+                    <span>Party Package</span>
+                    <span class="font-semibold">${{ event_plan.party_type.base_price }}</span>
+                </div>
+
+                <div class="flex justify-between">
+                    <span>Additional Services</span>
+                    <span class="font-semibold">${{ services_total }}</span>
+                </div>
+
+                <div class="border-t-2 pt-4 flex justify-between text-lg font-bold">
+                    <span>Total Amount</span>
+                    <span class="text-pink-600">${{ event_plan.total_cost }}</span>
+                </div>
+
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <p class="text-sm text-blue-900"><strong>Advance Payment:</strong> ${{ advance_payment }}</p>
+                    <p class="text-xs text-blue-700 mt-2">50% advance required to confirm booking</p>
+                </div>
+            </div>
+
+            <form method="post" class="space-y-4">
+                {% csrf_token %}
+                <button type="submit" class="btn-primary w-full">Confirm Booking</button>
+                <a href="{% url 'create_event_plan' %}" class="btn-outline block text-center">Edit Event</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
