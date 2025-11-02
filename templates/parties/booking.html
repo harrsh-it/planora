@@ -83,8 +83,8 @@
 
             <form method="post" class="space-y-4">
                 {% csrf_token %}
-                <button type="submit" class="btn-primary w-full">Confirm Booking</button>
-                <a href="{% url 'create_event_plan' %}" class="btn-outline block text-center">Edit Event</a>
+                <button type="submit" class="bg-[#291C0E] text-[#E1D4C2] px-10 py-3 rounded-xl font-semibold hover:bg-[#291C0E] hover:scale-105 transition-all duration-300 shadow-md">Confirm Booking</button>
+                <a href="{% url 'create_event_plan' %}" class="bg-[#291C0E] text-[#E1D4C2] px-10 py-3 rounded-xl font-semibold hover:bg-[#291C0E] hover:scale-105 transition-all duration-300 shadow-md">Edit Event</a>
             </form>
         </div>
     </div>

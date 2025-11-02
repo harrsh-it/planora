@@ -3,72 +3,104 @@
 {% block title %}Dashboard - PartyHub{% endblock %}
 
 {% block content %}
-<div class="max-w-7xl mx-auto px-4 py-20">
-    <h1 class="text-4xl font-bold mb-2 gradient-text">Your Dashboard</h1>
-    <p class="text-gray-600 mb-8">Welcome, {{ user.first_name|default:user.username }}!</p>
+<div class="min-h-screen bg-[#E1D4C2] py-20 px-6">
+    <div class="max-w-6xl mx-auto text-center">
 
-    <!-- Stats -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-        <div class="card">
-            <p class="text-gray-600 font-semibold">Total Events</p>
-            <p class="text-4xl font-bold text-pink-600">{{ event_plans|length }}</p>
+        <!-- Header -->
+        <h1 class="text-5xl font-extrabold mb-3 text-[#291C0E] tracking-tight">Your Dashboard</h1>
+        <p class="text-[#6E473B] text-lg mb-12">Welcome back, 
+            <span class="font-semibold text-[#291C0E]">{{ user.first_name|default:user.username }}</span> 🎉
+        </p>
+
+        <!-- Stats Section -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            <div class="bg-[#BEB5A9] rounded-2xl shadow-lg p-8 hover:shadow-xl transition-transform transform hover:-translate-y-1">
+                <p class="text-[#291C0E] font-medium mb-2 opacity-80">Total Events</p>
+                <p class="text-5xl font-extrabold text-[#291C0E]">{{ event_plans|length }}</p>
+            </div>
+
+            <div class="bg-[#BEB5A9] rounded-2xl shadow-lg p-8 hover:shadow-xl transition-transform transform hover:-translate-y-1">
+                <p class="text-[#291C0E] font-medium mb-2 opacity-80">Bookings</p>
+                <p class="text-5xl font-extrabold text-[#291C0E]">{{ bookings|length }}</p>
+            </div>
+
+            <div class="bg-[#BEB5A9] rounded-2xl shadow-lg p-8 hover:shadow-xl transition-transform transform hover:-translate-y-1">
+                <p class="text-[#291C0E] font-medium mb-2 opacity-80">Total Spent</p>
+                <p class="text-5xl font-extrabold text-[#6E473B]">${{ total_spent }}</p>
+            </div>
         </div>
-        <div class="card">
-            <p class="text-gray-600 font-semibold">Bookings</p>
-            <p class="text-4xl font-bold text-purple-600">{{ bookings|length }}</p>
-        </div>
-        <div class="card">
-            <p class="text-gray-600 font-semibold">Total Spent</p>
-            <p class="text-4xl font-bold text-cyan-600">${{ total_spent }}</p>
+
+        <!-- Action Button -->
+        <div class="mb-20">
+            <a href="{% url 'create_event_plan' %}"
+                class="bg-[#6E473B] text-[#E1D4C2] font-bold py-4 px-10 rounded-full shadow-lg hover:bg-[#291C0E] hover:scale-105 transition-all duration-300 inline-block">
+                + Create New Event
+            </a>
         </div>
     </div>
 
-    <!-- Action Button -->
-    <a href="{% url 'create_event_plan' %}" class="btn-primary inline-block mb-12">+ Create New Event</a>
-
-    <!-- Recent Event Plans -->
+    <!-- Event Plans -->
     {% if event_plans %}
-        <h2 class="text-2xl font-bold mb-6">Your Event Plans</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+    <div class="max-w-6xl mx-auto mb-20">
+        <h2 class="text-3xl font-bold text-center mb-10 text-[#291C0E]">Your Event Plans</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {% for plan in event_plans %}
-                <div class="card">
-                    <h3 class="text-xl font-bold mb-2">{{ plan.party_type.name }}</h3>
-                    <p class="text-gray-600 mb-4">{{ plan.event_date }} at {{ plan.event_time }}</p>
-                    <p class="text-gray-600 mb-2"><strong>Venue:</strong> {{ plan.venue }}</p>
-                    <p class="text-gray-600 mb-4"><strong>Guests:</strong> {{ plan.guest_count }}</p>
-                    <p class="text-pink-600 font-bold text-lg mb-4">${{ plan.total_cost }}</p>
-                    
-                    {% if plan.booking %}
-                        <a href="{% url 'booking_details' plan.booking.pk %}" class="btn-secondary block text-center text-sm">View Booking</a>
-                    {% else %}
-                        <a href="{% url 'booking' plan.pk %}" class="btn-primary block text-center text-sm">Complete Booking</a>
-                    {% endif %}
+            <div class="bg-[#BEB5A9] rounded-2xl shadow-md hover:shadow-xl transition-all p-6 text-left">
+                <div class="border-b border-[#A78D78] pb-4 mb-4">
+                    <h3 class="text-2xl font-bold text-[#291C0E]">{{ plan.party_type.name }}</h3>
+                    <p class="text-[#6E473B]">{{ plan.event_date }} at {{ plan.event_time }}</p>
                 </div>
+
+                <p class="text-[#291C0E] mb-1"><strong>Venue:</strong> {{ plan.venue }}</p>
+                <p class="text-[#291C0E] mb-1"><strong>Guests:</strong> {{ plan.guest_count }}</p>
+                <p class="text-[#6E473B] font-bold text-lg mb-6 mt-2">${{ plan.total_cost }}</p>
+
+                {% if plan.booking %}
+                    <a href="{% url 'booking_details' plan.booking.pk %}"
+                        class="block text-center bg-[#6E473B] hover:bg-[#291C0E] text-[#E1D4C2] font-semibold py-2 px-4 rounded-lg transition-all">
+                        View Booking
+                    </a>
+                {% else %}
+                    <a href="{% url 'booking' plan.pk %}"
+                        class="block text-center bg-[#A78D78] hover:bg-[#6E473B] text-[#291C0E] font-semibold py-2 px-4 rounded-lg transition-all">
+                        Complete Booking
+                    </a>
+                {% endif %}
+            </div>
             {% endfor %}
         </div>
+    </div>
     {% endif %}
 
     <!-- Bookings -->
     {% if bookings %}
-        <h2 class="text-2xl font-bold mb-6">Your Bookings</h2>
-        <div class="space-y-4">
+    <div class="max-w-6xl mx-auto">
+        <h2 class="text-3xl font-bold text-center mb-10 text-[#291C0E]">Your Bookings</h2>
+        <div class="space-y-6">
             {% for booking in bookings %}
-                <div class="card">
-                    <div class="flex justify-between items-start mb-4">
-                        <div>
-                            <p class="text-sm text-gray-500">Confirmation Code</p>
-                            <p class="text-2xl font-bold">{{ booking.confirmation_code }}</p>
-                        </div>
-                        <span class="px-4 py-2 rounded-full text-sm font-semibold {% if booking.status == 'confirmed' %}bg-green-100 text-green-800{% elif booking.status == 'pending' %}bg-yellow-100 text-yellow-800{% endif %}">
-                            {{ booking.get_status_display }}
-                        </span>
+            <div class="bg-[#BEB5A9] rounded-2xl shadow-md hover:shadow-xl transition-all p-6">
+                <div class="flex flex-col md:flex-row justify-between md:items-center mb-4">
+                    <div>
+                        <p class="text-sm text-[#6E473B]">Confirmation Code</p>
+                        <p class="text-2xl font-bold text-[#291C0E]">{{ booking.confirmation_code }}</p>
                     </div>
-                    <p class="text-gray-600 mb-2"><strong>Event:</strong> {{ booking.event_plan.party_type.name }}</p>
-                    <p class="text-gray-600 mb-2"><strong>Date:</strong> {{ booking.event_plan.event_date }}</p>
-                    <p class="text-pink-600 font-bold">Total: ${{ booking.payment_amount }}</p>
+                    <span class="mt-3 md:mt-0 px-4 py-2 rounded-full text-sm font-semibold
+                        {% if booking.status == 'confirmed' %}bg-green-100 text-green-700
+                        {% elif booking.status == 'pending' %}bg-yellow-100 text-yellow-700
+                        {% else %}bg-gray-100 text-gray-700{% endif %}">
+                        {{ booking.get_status_display }}
+                    </span>
                 </div>
+
+                <div class="grid md:grid-cols-3 gap-4 text-[#291C0E]">
+                    <p><strong>Event:</strong> {{ booking.event_plan.party_type.name }}</p>
+                    <p><strong>Date:</strong> {{ booking.event_plan.event_date }}</p>
+                    <p><strong>Total:</strong> <span class="text-[#6E473B] font-semibold">${{ booking.payment_amount }}</span></p>
+                </div>
+            </div>
             {% endfor %}
         </div>
+    </div>
     {% endif %}
 </div>
 {% endblock %}

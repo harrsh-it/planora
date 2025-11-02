@@ -11,9 +11,11 @@ def home(request):
     """Home page with featured parties"""
     party_types = PartyType.objects.all()[:6]
     testimonials = Testimonial.objects.all()[:3]
+    services = Service.objects.all()[:6]
     context = {
         'party_types': party_types,
         'testimonials': testimonials,
+        'services': services,
     }
     return render(request, 'parties/home.html', context)
 
@@ -21,7 +23,8 @@ def home(request):
 def services(request):
     """Services and party types listing"""
     party_types = PartyType.objects.all()
-    context = {'party_types': party_types}
+    services = Service.objects.all()
+    context = {'party_types': party_types, 'services': services}
     return render(request, 'parties/services.html', context)
 
 
